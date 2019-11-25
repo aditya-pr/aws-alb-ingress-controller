@@ -12,7 +12,7 @@ require (
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/golang/groupcache v0.0.0-20190129154638-5b532d6fd5ef // indirect
 	github.com/golang/mock v1.2.0
-	github.com/golangci/golangci-lint v1.14.0 // indirect
+	// github.com/golangci/golangci-lint v1.14.0 // indirect
 	github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c // indirect
 	github.com/google/gofuzz v0.0.0-20170612174753-24818f796faf // indirect
 	github.com/googleapis/gnostic v0.2.0 // indirect
@@ -47,10 +47,12 @@ require (
 	k8s.io/api v0.0.0-20181213150558-05914d821849
 	k8s.io/apimachinery v0.0.0-20181127025237-2b1284ed4c93
 	k8s.io/apiserver v0.0.0-20190214201149-f9f16382a346
-	k8s.io/client-go v2.0.0-alpha.0.0.20181213151034-8d9ed539ba31+incompatible
+	k8s.io/client-go v0.0.0-20181213151034-8d9ed539ba31
 	k8s.io/klog v0.2.0
 	k8s.io/kube-openapi v0.0.0-20190208205540-d7c86cdc46e3 // indirect
 	sigs.k8s.io/controller-runtime v0.1.10
 	sigs.k8s.io/structured-merge-diff v0.0.0-20190215000154-7666d3d49c8f // indirect
 	sigs.k8s.io/yaml v1.1.0 // indirect
 )
+
+go 1.13

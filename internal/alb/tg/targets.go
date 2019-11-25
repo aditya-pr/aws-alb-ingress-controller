@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"time"
 
 	"github.com/aws/aws-sdk-go/service/elbv2"
 	"github.com/kubernetes-sigs/aws-alb-ingress-controller/internal/albctx"
@@ -61,7 +62,12 @@ type targetsController struct {
 }
 
 func (c *targetsController) Reconcile(ctx context.Context, t *Targets) error {
+	albctx.GetLogger(ctx).Infof("reconcile started...")
+	start := time.Now()
 	desired, err := c.endpointResolver.Resolve(t.Ingress, t.Backend, t.TargetType)
+	// for _, i := range desired {
+	// 	albctx.GetLogger(ctx).Infof("desired %v", tdString(i))
+	// }
 	if err != nil {
 		return err
 	}
@@ -72,10 +78,14 @@ func (c *targetsController) Reconcile(ctx context.Context, t *Targets) error {
 		}
 	}
 	current, err := c.getCurrentTargets(ctx, t.TgArn)
+	// for _, i := range current {
+	// 	albctx.GetLogger(ctx).Infof("current %v", tdString(i))
+	// }
 	if err != nil {
 		return err
 	}
 	additions, removals := targetChangeSets(current, desired)
+
 	if len(additions) > 0 {
 		albctx.GetLogger(ctx).Infof("Adding targets to %v: %v", t.TgArn, tdsString(additions))
 		in := &elbv2.RegisterTargetsInput{
@@ -106,6 +116,7 @@ func (c *targetsController) Reconcile(ctx context.Context, t *Targets) error {
 		// TODO add Delete events ?
 	}
 	t.Targets = desired
+	albctx.GetLogger(ctx).Infof("reconcile done... %v", time.Since(start))
 	return nil
 }
 
