@@ -33,8 +33,12 @@ func (h *EnqueueRequestsForEndpointsEvent) Create(e event.CreateEvent, queue wor
 func (h *EnqueueRequestsForEndpointsEvent) Update(e event.UpdateEvent, queue workqueue.RateLimitingInterface) {
 	epOld := e.ObjectOld.(*corev1.Endpoints)
 	epNew := e.ObjectNew.(*corev1.Endpoints)
+	glog.Infof("Queue len: %v", queue.Len())
 	if !reflect.DeepEqual(epOld.Subsets, epNew.Subsets) {
+		glog.Infof("Endpoint changes.. %v", epNew.Name)
 		h.enqueueImpactedIngresses(epNew, queue)
+	} else {
+		glog.Infof("No changes.. %v", epNew.Name)
 	}
 }
 
